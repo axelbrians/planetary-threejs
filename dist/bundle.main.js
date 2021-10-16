@@ -63027,11 +63027,20 @@ Array.from({
 }, () => 1).map(() => {
   scene.add(generateStar());
 });
-const moonLoader = new three__WEBPACK_IMPORTED_MODULE_6__.TextureLoader();
-var moon;
 var rMoon = 35;
 var thetaMoon = 0;
 var dThetaMoon = 2 * Math.PI / 1000;
+var rEarth = 250;
+var thetaEarth = 0;
+var dThetaEarth = 2 * Math.PI / 12000;
+const sunTexture = new three__WEBPACK_IMPORTED_MODULE_6__.TextureLoader().load(_assets_images_SunTexture_jpg__WEBPACK_IMPORTED_MODULE_5__);
+const sunGeo = new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(70, 50, 50);
+const sunMat = new three__WEBPACK_IMPORTED_MODULE_6__.MeshBasicMaterial({
+  map: sunTexture
+});
+const sun = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(sunGeo, sunMat);
+sun.position.set(-50, 0, 0);
+scene.add(sun);
 const earthTexture = new three__WEBPACK_IMPORTED_MODULE_6__.TextureLoader().load(_assets_images_EarthTexture_jpg__WEBPACK_IMPORTED_MODULE_3__);
 const earthGeo = new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(10, 50, 50);
 const earthMat = new three__WEBPACK_IMPORTED_MODULE_6__.MeshBasicMaterial({
@@ -63051,17 +63060,14 @@ const cloudMat = new three__WEBPACK_IMPORTED_MODULE_6__.MeshPhongMaterial({
 const earthCloud = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(cloudGeo, cloudMat);
 earthCloud.position.set(0, 0, 0);
 scene.add(earthCloud);
-moonLoader.load(_assets_images_MoonTexture_jpg__WEBPACK_IMPORTED_MODULE_2__, function (texture) {
-  const moonGeometry = new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(2.5, 50, 50);
-  const moonMaterial = new three__WEBPACK_IMPORTED_MODULE_6__.MeshPhongMaterial({
-    map: texture
-  });
-  moon = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(moonGeometry, moonMaterial);
-  moon.position.set(35, 0, 0);
-  scene.add(moon);
-}, undefined, function (err) {
-  console.error('An error happened.');
-}); // Lights option
+const moonTexture = new three__WEBPACK_IMPORTED_MODULE_6__.TextureLoader().load(_assets_images_MoonTexture_jpg__WEBPACK_IMPORTED_MODULE_2__);
+const moonGeometry = new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(2.5, 50, 50);
+const moonMaterial = new three__WEBPACK_IMPORTED_MODULE_6__.MeshBasicMaterial({
+  map: moonTexture
+});
+const moon = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(moonGeometry, moonMaterial);
+moon.position.set(35, 0, 0);
+scene.add(moon); // Lights option
 // Point Light
 // Spot Light
 
@@ -63095,11 +63101,11 @@ window.addEventListener('resize', () => {
 // Base camera
 
 const camera = new three__WEBPACK_IMPORTED_MODULE_6__.PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 1000);
-camera.position.set(20, 20, 50);
+camera.position.set(250, 20, 250);
 scene.add(camera); // Controls
 
-const controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_7__.OrbitControls(camera, canvas);
-controls.enableDamping = true;
+const controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_7__.OrbitControls(camera, canvas); // controls.enableDamping = true;
+
 /**
  * Renderer
  */
@@ -63119,24 +63125,29 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime(); // Update objects
 
   if (earth instanceof three__WEBPACK_IMPORTED_MODULE_6__.Mesh) {
+    thetaEarth += dThetaEarth;
     earth.rotation.y -= 0.002;
+    earth.position.x = rEarth * Math.cos(thetaEarth);
+    earth.position.z = rEarth * Math.sin(thetaEarth);
   }
 
   if (earthCloud instanceof three__WEBPACK_IMPORTED_MODULE_6__.Mesh) {
     earthCloud.rotation.y -= 0.0009;
+    earthCloud.position.x = rEarth * Math.cos(thetaEarth);
+    earthCloud.position.z = rEarth * Math.sin(thetaEarth);
   }
 
   if (moon instanceof three__WEBPACK_IMPORTED_MODULE_6__.Mesh) {
     thetaMoon += dThetaMoon;
-    moon.position.x = rMoon * Math.cos(thetaMoon);
-    moon.position.z = rMoon * Math.sin(thetaMoon);
+    moon.position.x = rMoon * Math.cos(thetaMoon) + rEarth * Math.cos(thetaEarth);
+    moon.position.z = rMoon * Math.sin(thetaMoon) + rEarth * Math.sin(thetaEarth);
     moon.position.y = rMoon * Math.sin(thetaMoon);
     moon.rotation.y -= 0.002;
     moon.rotation.z -= 0.002;
   } // Update Orbital Controls
-  // controls.update()
-  // Render
 
+
+  controls.update(); // Render
 
   renderer.render(scene, camera); // Call tick again on the next frame
 
@@ -63149,10 +63160,10 @@ tick();
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!***********************************************************************************!*\
-  !*** ./node_modules/webpack-dev-server/client/index.js?http://192.168.8.101:8080 ***!
-  \***********************************************************************************/
-var __resourceQuery = "?http://192.168.8.101:8080";
+/*!*********************************************************************************!*\
+  !*** ./node_modules/webpack-dev-server/client/index.js?http://192.168.0.1:8080 ***!
+  \*********************************************************************************/
+var __resourceQuery = "?http://192.168.0.1:8080";
 
 /* global __resourceQuery WorkerGlobalScope self */
 
