@@ -63056,13 +63056,16 @@ Array.from({
 });
 var rMoon = 35;
 var thetaMoon = 0;
-var dThetaMoon = 2 * Math.PI / 1000;
+let divMoon = 1000;
+var dThetaMoon = 2 * Math.PI / divMoon;
 var rEarth = 250;
 var thetaEarth = 0;
-var dThetaEarth = 2 * Math.PI / 12000;
+let divEarth = 12000;
+var dThetaEarth = 2 * Math.PI / divEarth;
 var rMars = 350;
 var thetaMars = 0;
-var dThetaMars = 2 * Math.PI / 24000;
+let divMars = 24000;
+var dThetaMars = 2 * Math.PI / divMars;
 const sunTexture = new three__WEBPACK_IMPORTED_MODULE_8__.TextureLoader().load(_assets_images_SunTexture_jpg__WEBPACK_IMPORTED_MODULE_6__);
 const sunGeo = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(70, 50, 50);
 const sunMat = new three__WEBPACK_IMPORTED_MODULE_8__.MeshBasicMaterial({
@@ -63150,6 +63153,22 @@ const onKeyListener = event => {
   } else if (event.keyCode === 82) {
     isReversed = !isReversed;
   }
+
+  if (event.key === "s" || event.key === "S") {
+    divEarth += 120;
+    divMars += 240;
+    divMoon += 10;
+  }
+
+  if (event.key === "f" || event.key === "F") {
+    if (divEarth - 120 > 0) divEarth -= 120;else if (divEarth - 1 > 1) divEarth--;
+    if (divMars - 240 > 0) divMars -= 240;else if (divMars - 1 > 1) divMars--;
+    if (divMoon - 10 > 0) divMoon -= 10;else if (divMoon - 1 > 1) divMoon--;
+  }
+
+  dThetaMars = 2 * Math.PI / divMars;
+  dThetaMoon = 2 * Math.PI / divMoon;
+  dThetaEarth = 2 * Math.PI / divEarth;
 };
 
 document.addEventListener('keydown', onKeyListener);
