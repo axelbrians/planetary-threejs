@@ -62866,6 +62866,17 @@ module.exports = __webpack_require__.p + "40c9ecc4a9518bd739e6.jpg";
 
 /***/ }),
 
+/***/ "./src/assets/images/MarsTexture.jpg":
+/*!*******************************************!*\
+  !*** ./src/assets/images/MarsTexture.jpg ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "82d3f6cb20fb0d5eb799.jpg";
+
+/***/ }),
+
 /***/ "./src/assets/images/MoonTexture.jpg":
 /*!*******************************************!*\
   !*** ./src/assets/images/MoonTexture.jpg ***!
@@ -62997,14 +63008,16 @@ var __webpack_exports__ = {};
   \***********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/style.css");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
-/* harmony import */ var three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls.js */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls.js */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
 /* harmony import */ var dat_gui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dat.gui */ "./node_modules/dat.gui/build/dat.gui.module.js");
 /* harmony import */ var _randomNextInt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./randomNextInt */ "./src/randomNextInt.js");
 /* harmony import */ var _assets_images_MoonTexture_jpg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./assets/images/MoonTexture.jpg */ "./src/assets/images/MoonTexture.jpg");
 /* harmony import */ var _assets_images_EarthTexture_jpg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./assets/images/EarthTexture.jpg */ "./src/assets/images/EarthTexture.jpg");
 /* harmony import */ var _assets_images_EarthCloud_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./assets/images/EarthCloud.png */ "./src/assets/images/EarthCloud.png");
 /* harmony import */ var _assets_images_SunTexture_jpg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./assets/images/SunTexture.jpg */ "./src/assets/images/SunTexture.jpg");
+/* harmony import */ var _assets_images_MarsTexture_jpg__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./assets/images/MarsTexture.jpg */ "./src/assets/images/MarsTexture.jpg");
+
 
 
 
@@ -63017,21 +63030,21 @@ __webpack_require__.r(__webpack_exports__);
 
 const canvas = document.querySelector('canvas.webgl'); // Scene
 
-const scene = new three__WEBPACK_IMPORTED_MODULE_7__.Scene(); // Grid helper
+const scene = new three__WEBPACK_IMPORTED_MODULE_8__.Scene(); // Grid helper
 // const gridHelper = new THREE.GridHelper( 1000, 1000 );
 // scene.add( gridHelper );
 // Geomtry
 // Mesh
 // Add mesh to canvass
 
-let starMaterial = new three__WEBPACK_IMPORTED_MODULE_7__.MeshBasicMaterial({
+let starMaterial = new three__WEBPACK_IMPORTED_MODULE_8__.MeshBasicMaterial({
   color: 0xffffff
 });
-let star = new three__WEBPACK_IMPORTED_MODULE_7__.SphereGeometry(1, 32, 16);
+let star = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(1, 32, 16);
 
 function generateStar() {
   // console.log("added new star" + positions);
-  let starMesh = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(star, starMaterial);
+  let starMesh = new three__WEBPACK_IMPORTED_MODULE_8__.Mesh(star, starMaterial);
   starMesh.position.set((0,_randomNextInt__WEBPACK_IMPORTED_MODULE_2__.default)(-1000, 1000), (0,_randomNextInt__WEBPACK_IMPORTED_MODULE_2__.default)(-1000, 1000), (0,_randomNextInt__WEBPACK_IMPORTED_MODULE_2__.default)(-1000, 1000));
   return starMesh;
 }
@@ -63047,45 +63060,56 @@ var dThetaMoon = 2 * Math.PI / 1000;
 var rEarth = 250;
 var thetaEarth = 0;
 var dThetaEarth = 2 * Math.PI / 12000;
-const sunTexture = new three__WEBPACK_IMPORTED_MODULE_7__.TextureLoader().load(_assets_images_SunTexture_jpg__WEBPACK_IMPORTED_MODULE_6__);
-const sunGeo = new three__WEBPACK_IMPORTED_MODULE_7__.SphereGeometry(70, 50, 50);
-const sunMat = new three__WEBPACK_IMPORTED_MODULE_7__.MeshBasicMaterial({
+var rMars = 350;
+var thetaMars = 0;
+var dThetaMars = 2 * Math.PI / 24000;
+const sunTexture = new three__WEBPACK_IMPORTED_MODULE_8__.TextureLoader().load(_assets_images_SunTexture_jpg__WEBPACK_IMPORTED_MODULE_6__);
+const sunGeo = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(70, 50, 50);
+const sunMat = new three__WEBPACK_IMPORTED_MODULE_8__.MeshBasicMaterial({
   map: sunTexture
 });
-const sun = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(sunGeo, sunMat);
+const sun = new three__WEBPACK_IMPORTED_MODULE_8__.Mesh(sunGeo, sunMat);
 sun.position.set(0, 0, 0);
 scene.add(sun);
-const earthTexture = new three__WEBPACK_IMPORTED_MODULE_7__.TextureLoader().load(_assets_images_EarthTexture_jpg__WEBPACK_IMPORTED_MODULE_4__);
-const earthGeo = new three__WEBPACK_IMPORTED_MODULE_7__.SphereGeometry(10, 50, 50);
-const earthMat = new three__WEBPACK_IMPORTED_MODULE_7__.MeshBasicMaterial({
+const earthTexture = new three__WEBPACK_IMPORTED_MODULE_8__.TextureLoader().load(_assets_images_EarthTexture_jpg__WEBPACK_IMPORTED_MODULE_4__);
+const earthGeo = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(10, 50, 50);
+const earthMat = new three__WEBPACK_IMPORTED_MODULE_8__.MeshBasicMaterial({
   map: earthTexture
 });
-const earth = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(earthGeo, earthMat);
+const earth = new three__WEBPACK_IMPORTED_MODULE_8__.Mesh(earthGeo, earthMat);
 earth.position.set(0, 0, 0);
 scene.add(earth);
-const earthCloudTexture = new three__WEBPACK_IMPORTED_MODULE_7__.TextureLoader().load(_assets_images_EarthCloud_png__WEBPACK_IMPORTED_MODULE_5__);
-const cloudGeo = new three__WEBPACK_IMPORTED_MODULE_7__.SphereGeometry(10.2, 50, 50);
-const cloudMat = new three__WEBPACK_IMPORTED_MODULE_7__.MeshPhongMaterial({
+const earthCloudTexture = new three__WEBPACK_IMPORTED_MODULE_8__.TextureLoader().load(_assets_images_EarthCloud_png__WEBPACK_IMPORTED_MODULE_5__);
+const cloudGeo = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(10.2, 50, 50);
+const cloudMat = new three__WEBPACK_IMPORTED_MODULE_8__.MeshPhongMaterial({
   map: earthCloudTexture,
   transparent: true,
   opacity: 0.1,
   emissive: 0xffffff
 });
-const earthCloud = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(cloudGeo, cloudMat);
+const earthCloud = new three__WEBPACK_IMPORTED_MODULE_8__.Mesh(cloudGeo, cloudMat);
 earthCloud.position.set(0, 0, 0);
 scene.add(earthCloud);
-const moonTexture = new three__WEBPACK_IMPORTED_MODULE_7__.TextureLoader().load(_assets_images_MoonTexture_jpg__WEBPACK_IMPORTED_MODULE_3__);
-const moonGeometry = new three__WEBPACK_IMPORTED_MODULE_7__.SphereGeometry(2.5, 50, 50);
-const moonMaterial = new three__WEBPACK_IMPORTED_MODULE_7__.MeshBasicMaterial({
+const moonTexture = new three__WEBPACK_IMPORTED_MODULE_8__.TextureLoader().load(_assets_images_MoonTexture_jpg__WEBPACK_IMPORTED_MODULE_3__);
+const moonGeometry = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(2.5, 50, 50);
+const moonMaterial = new three__WEBPACK_IMPORTED_MODULE_8__.MeshBasicMaterial({
   map: moonTexture
 });
-const moon = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(moonGeometry, moonMaterial);
+const moon = new three__WEBPACK_IMPORTED_MODULE_8__.Mesh(moonGeometry, moonMaterial);
 moon.position.set(35, 0, 0);
-scene.add(moon); // Lights option
+scene.add(moon);
+const marsTexture = new three__WEBPACK_IMPORTED_MODULE_8__.TextureLoader().load(_assets_images_MarsTexture_jpg__WEBPACK_IMPORTED_MODULE_7__);
+const marsGeometry = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(5, 50, 50);
+const marsMaterial = new three__WEBPACK_IMPORTED_MODULE_8__.MeshBasicMaterial({
+  map: marsTexture
+});
+const mars = new three__WEBPACK_IMPORTED_MODULE_8__.Mesh(marsGeometry, marsMaterial);
+mars.position.set(0, 0, 0);
+scene.add(mars); // Lights option
 // Point Light
 // Spot Light
 
-const directionalLight = new three__WEBPACK_IMPORTED_MODULE_7__.DirectionalLight(0xffffff, 0.5);
+const directionalLight = new three__WEBPACK_IMPORTED_MODULE_8__.DirectionalLight(0xffffff, 0.5);
 directionalLight.visible = false;
 scene.add(directionalLight); // Debug
 
@@ -63114,17 +63138,17 @@ window.addEventListener('resize', () => {
  */
 // Base camera
 
-const camera = new three__WEBPACK_IMPORTED_MODULE_7__.PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 1000);
+const camera = new three__WEBPACK_IMPORTED_MODULE_8__.PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 1000);
 camera.position.set(250, 20, 250);
 scene.add(camera); // Controls
 
-const controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_8__.OrbitControls(camera, canvas); // controls.enableDamping = true;
+const controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_9__.OrbitControls(camera, canvas); // controls.enableDamping = true;
 
 /**
  * Renderer
  */
 
-const renderer = new three__WEBPACK_IMPORTED_MODULE_7__.WebGLRenderer({
+const renderer = new three__WEBPACK_IMPORTED_MODULE_8__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
@@ -63133,31 +63157,38 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  * Animate
  */
 
-const clock = new three__WEBPACK_IMPORTED_MODULE_7__.Clock();
+const clock = new three__WEBPACK_IMPORTED_MODULE_8__.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime(); // Update objects
 
-  if (earth instanceof three__WEBPACK_IMPORTED_MODULE_7__.Mesh) {
+  if (earth instanceof three__WEBPACK_IMPORTED_MODULE_8__.Mesh) {
     thetaEarth += dThetaEarth;
     earth.rotation.y -= 0.002;
     earth.position.x = rEarth * Math.cos(thetaEarth);
     earth.position.z = rEarth * Math.sin(thetaEarth);
   }
 
-  if (earthCloud instanceof three__WEBPACK_IMPORTED_MODULE_7__.Mesh) {
+  if (earthCloud instanceof three__WEBPACK_IMPORTED_MODULE_8__.Mesh) {
     earthCloud.rotation.y -= 0.0009;
     earthCloud.position.x = rEarth * Math.cos(thetaEarth);
     earthCloud.position.z = rEarth * Math.sin(thetaEarth);
   }
 
-  if (moon instanceof three__WEBPACK_IMPORTED_MODULE_7__.Mesh) {
+  if (moon instanceof three__WEBPACK_IMPORTED_MODULE_8__.Mesh) {
     thetaMoon += dThetaMoon;
     moon.position.x = rMoon * Math.cos(thetaMoon) + rEarth * Math.cos(thetaEarth);
     moon.position.z = rMoon * Math.sin(thetaMoon) + rEarth * Math.sin(thetaEarth);
     moon.position.y = rMoon * Math.sin(thetaMoon);
     moon.rotation.y -= 0.002;
     moon.rotation.z -= 0.002;
+  }
+
+  if (mars instanceof three__WEBPACK_IMPORTED_MODULE_8__.Mesh) {
+    thetaMars += dThetaMars;
+    mars.position.x = rMars * Math.cos(thetaMars);
+    mars.position.z = rMars * Math.sin(thetaMars);
+    mars.rotation.y -= 0.002;
   } // Update Orbital Controls
 
 
@@ -63174,10 +63205,10 @@ tick();
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!*********************************************************************************!*\
-  !*** ./node_modules/webpack-dev-server/client/index.js?http://192.168.0.1:8080 ***!
-  \*********************************************************************************/
-var __resourceQuery = "?http://192.168.0.1:8080";
+/*!***********************************************************************************!*\
+  !*** ./node_modules/webpack-dev-server/client/index.js?http://192.168.0.106:8081 ***!
+  \***********************************************************************************/
+var __resourceQuery = "?http://192.168.0.106:8081";
 
 /* global __resourceQuery WorkerGlobalScope self */
 

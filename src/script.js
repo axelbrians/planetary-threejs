@@ -7,6 +7,7 @@ import MoonTexture from './assets/images/MoonTexture.jpg';
 import EarthTexture from './assets/images/EarthTexture.jpg';
 import EarthCloud from './assets/images/EarthCloud.png';
 import SunTexture from './assets/images/SunTexture.jpg';
+import MarsTexture from './assets/images/MarsTexture.jpg';
 
 
 // Canvas
@@ -60,6 +61,10 @@ var rEarth = 250;
 var thetaEarth = 0;
 var dThetaEarth = 2 * Math.PI / 12000;
 
+var rMars = 350;
+var thetaMars = 0;
+var dThetaMars = 2 * Math.PI / 24000;
+
 const sunTexture = new THREE.TextureLoader().load(SunTexture);
 const sunGeo = new THREE.SphereGeometry(70, 50, 50);
 const sunMat = new THREE.MeshBasicMaterial({ map: sunTexture });
@@ -94,6 +99,14 @@ const moonMaterial = new THREE.MeshBasicMaterial({ map: moonTexture });
 const moon = new THREE.Mesh(moonGeometry, moonMaterial);
 moon.position.set(35, 0, 0);
 scene.add(moon)
+
+
+const marsTexture = new THREE.TextureLoader().load(MarsTexture);
+const marsGeometry = new THREE.SphereGeometry(5, 50, 50);
+const marsMaterial = new THREE.MeshBasicMaterial({ map: marsTexture });
+const mars = new THREE.Mesh(marsGeometry, marsMaterial);
+mars.position.set(0, 0, 0);
+scene.add(mars)
 
 
 // Lights option
@@ -188,6 +201,13 @@ const tick = () => {
         moon.position.y = rMoon * Math.sin(thetaMoon);
         moon.rotation.y -= 0.002;
         moon.rotation.z -= 0.002;
+    }
+
+    if (mars instanceof THREE.Mesh) {
+        thetaMars += dThetaMars;
+        mars.position.x = rMars * Math.cos(thetaMars);
+        mars.position.z = rMars * Math.sin(thetaMars);
+        mars.rotation.y -= 0.002;
     }
 
     // Update Orbital Controls
