@@ -34,7 +34,7 @@ const scene = new THREE.Scene();
 // Add mesh to canvass
 
 let starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-let star = new THREE.SphereGeometry(1, 32, 16);
+let star = new THREE.SphereGeometry(0.3, 32, 16);
 
 function generateStar() {
     // console.log("added new star" + positions);
@@ -74,14 +74,14 @@ scene.add(sun);
 
 
 const earthTexture = new THREE.TextureLoader().load(EarthTexture);
-const earthGeo = new THREE.SphereGeometry(10, 50, 50);
+const earthGeo = new THREE.SphereGeometry(20, 50, 50);
 const earthMat = new THREE.MeshBasicMaterial({ map: earthTexture });
 const earth = new THREE.Mesh(earthGeo, earthMat);
 earth.position.set(0, 0, 0);
 scene.add(earth);
 
 const earthCloudTexture = new THREE.TextureLoader().load(EarthCloud);
-const cloudGeo = new THREE.SphereGeometry(10.2, 50, 50);
+const cloudGeo = new THREE.SphereGeometry(20.2, 50, 50);
 const cloudMat = new THREE.MeshPhongMaterial({
     map: earthCloudTexture,
     transparent: true,
@@ -94,7 +94,7 @@ scene.add(earthCloud);
 
 
 const moonTexture = new THREE.TextureLoader().load(MoonTexture);
-const moonGeometry = new THREE.SphereGeometry(2.5, 50, 50);
+const moonGeometry = new THREE.SphereGeometry(10, 50, 50);
 const moonMaterial = new THREE.MeshBasicMaterial({ map: moonTexture });
 const moon = new THREE.Mesh(moonGeometry, moonMaterial);
 moon.position.set(35, 0, 0);
@@ -102,7 +102,7 @@ scene.add(moon)
 
 
 const marsTexture = new THREE.TextureLoader().load(MarsTexture);
-const marsGeometry = new THREE.SphereGeometry(5, 50, 50);
+const marsGeometry = new THREE.SphereGeometry(16, 50, 50);
 const marsMaterial = new THREE.MeshBasicMaterial({ map: marsTexture });
 const mars = new THREE.Mesh(marsGeometry, marsMaterial);
 mars.position.set(0, 0, 0);
@@ -151,7 +151,7 @@ window.addEventListener('resize', () => {
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 1000);
-camera.position.set(250, 20, 250);
+camera.position.set(250, 20, 550);
 scene.add(camera);
 
 
@@ -159,7 +159,16 @@ scene.add(camera);
 const controls = new OrbitControls(camera, canvas);
 // controls.enableDamping = true;
 
+const onKeyListener = (event) => {
+    if (event.keyCode === 32) {
+        isPaused = !isPaused;
+    } else if (event.keyCode === 82) {
+        isReversed = !isReversed;
+    }
+}
 
+
+document.addEventListener('keydown', onKeyListener);
 
 /**
  * Renderer
@@ -176,40 +185,71 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 const clock = new THREE.Clock()
 
+let isPaused = false;
+let isReversed = false;
+
+const earthSpeedRot = 0.002;
+const earthCloudSpeedRot = 0.0009;
+const moonSpeedRot = 0.002;
+const marsSpeedRot = 0.002;
+const sunSpeedRot = 0.001;
+
 
 const tick = () => {
 
     const elapsedTime = clock.getElapsedTime()
-    // Update objects
-    if (earth instanceof THREE.Mesh) {
-        thetaEarth += dThetaEarth;
-        earth.rotation.y -= 0.002;
-        earth.position.x = rEarth * Math.cos(thetaEarth);
-        earth.position.z = rEarth * Math.sin(thetaEarth);
-    }
+    // Update objects depends on isPaused
+    if (!isPaused) {
+        if (!isReversed) {
+            thetaEarth += dThetaEarth;
+            earth.rotation.y -= earthSpeedRot;
+            earth.position.x = rEarth * Math.cos(thetaEarth);
+            earth.position.z = rEarth * Math.sin(thetaEarth);
 
-    if (earthCloud instanceof THREE.Mesh) {
-        earthCloud.rotation.y -= 0.0009;
-        earthCloud.position.x = rEarth * Math.cos(thetaEarth);
-        earthCloud.position.z = rEarth * Math.sin(thetaEarth);
-    }
+            earthCloud.rotation.y -= earthCloudSpeedRot;
+            earthCloud.position.x = rEarth * Math.cos(thetaEarth);
+            earthCloud.position.z = rEarth * Math.sin(thetaEarth);
 
-    if (moon instanceof THREE.Mesh) {
-        thetaMoon += dThetaMoon;
-        moon.position.x = rMoon * Math.cos(thetaMoon) + rEarth * Math.cos(thetaEarth);
-        moon.position.z = rMoon * Math.sin(thetaMoon) + rEarth * Math.sin(thetaEarth);
-        moon.position.y = rMoon * Math.sin(thetaMoon);
-        moon.rotation.y -= 0.002;
-        moon.rotation.z -= 0.002;
-    }
 
-    if (mars instanceof THREE.Mesh) {
-        thetaMars += dThetaMars;
-        mars.position.x = rMars * Math.cos(thetaMars);
-        mars.position.z = rMars * Math.sin(thetaMars);
-        mars.rotation.y -= 0.002;
-    }
+            thetaMoon += dThetaMoon;
+            moon.position.x = rMoon * Math.cos(thetaMoon) + rEarth * Math.cos(thetaEarth);
+            moon.position.z = rMoon * Math.sin(thetaMoon) + rEarth * Math.sin(thetaEarth);
+            moon.position.y = rMoon * Math.sin(thetaMoon);
+            moon.rotation.y -= moonSpeedRot;
+            moon.rotation.z -= moonSpeedRot;
 
+            thetaMars += dThetaMars;
+            mars.position.x = rMars * Math.cos(thetaMars);
+            mars.position.z = rMars * Math.sin(thetaMars);
+            mars.rotation.y -= marsSpeedRot;
+
+            sun.rotation.y -= sunSpeedRot;
+        } else {
+            thetaEarth -= dThetaEarth;
+            earth.rotation.y += earthSpeedRot;
+            earth.position.x = rEarth * Math.cos(thetaEarth);
+            earth.position.z = rEarth * Math.sin(thetaEarth);
+
+            earthCloud.rotation.y += earthCloudSpeedRot;
+            earthCloud.position.x = rEarth * Math.cos(thetaEarth);
+            earthCloud.position.z = rEarth * Math.sin(thetaEarth);
+
+
+            thetaMoon -= dThetaMoon;
+            moon.position.x = rMoon * Math.cos(thetaMoon) + rEarth * Math.cos(thetaEarth);
+            moon.position.z = rMoon * Math.sin(thetaMoon) + rEarth * Math.sin(thetaEarth);
+            moon.position.y = rMoon * Math.sin(thetaMoon);
+            moon.rotation.y += moonSpeedRot;
+            moon.rotation.z += moonSpeedRot;
+
+            thetaMars -= dThetaMars;
+            mars.position.x = rMars * Math.cos(thetaMars);
+            mars.position.z = rMars * Math.sin(thetaMars);
+            mars.rotation.y += marsSpeedRot;
+
+            sun.rotation.y += sunSpeedRot;
+        }
+    }
     // Update Orbital Controls
     controls.update()
 

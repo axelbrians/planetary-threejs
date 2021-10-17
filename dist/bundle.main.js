@@ -63040,7 +63040,7 @@ const scene = new three__WEBPACK_IMPORTED_MODULE_8__.Scene(); // Grid helper
 let starMaterial = new three__WEBPACK_IMPORTED_MODULE_8__.MeshBasicMaterial({
   color: 0xffffff
 });
-let star = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(1, 32, 16);
+let star = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(0.3, 32, 16);
 
 function generateStar() {
   // console.log("added new star" + positions);
@@ -63072,7 +63072,7 @@ const sun = new three__WEBPACK_IMPORTED_MODULE_8__.Mesh(sunGeo, sunMat);
 sun.position.set(0, 0, 0);
 scene.add(sun);
 const earthTexture = new three__WEBPACK_IMPORTED_MODULE_8__.TextureLoader().load(_assets_images_EarthTexture_jpg__WEBPACK_IMPORTED_MODULE_4__);
-const earthGeo = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(10, 50, 50);
+const earthGeo = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(20, 50, 50);
 const earthMat = new three__WEBPACK_IMPORTED_MODULE_8__.MeshBasicMaterial({
   map: earthTexture
 });
@@ -63080,7 +63080,7 @@ const earth = new three__WEBPACK_IMPORTED_MODULE_8__.Mesh(earthGeo, earthMat);
 earth.position.set(0, 0, 0);
 scene.add(earth);
 const earthCloudTexture = new three__WEBPACK_IMPORTED_MODULE_8__.TextureLoader().load(_assets_images_EarthCloud_png__WEBPACK_IMPORTED_MODULE_5__);
-const cloudGeo = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(10.2, 50, 50);
+const cloudGeo = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(20.2, 50, 50);
 const cloudMat = new three__WEBPACK_IMPORTED_MODULE_8__.MeshPhongMaterial({
   map: earthCloudTexture,
   transparent: true,
@@ -63091,7 +63091,7 @@ const earthCloud = new three__WEBPACK_IMPORTED_MODULE_8__.Mesh(cloudGeo, cloudMa
 earthCloud.position.set(0, 0, 0);
 scene.add(earthCloud);
 const moonTexture = new three__WEBPACK_IMPORTED_MODULE_8__.TextureLoader().load(_assets_images_MoonTexture_jpg__WEBPACK_IMPORTED_MODULE_3__);
-const moonGeometry = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(2.5, 50, 50);
+const moonGeometry = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(10, 50, 50);
 const moonMaterial = new three__WEBPACK_IMPORTED_MODULE_8__.MeshBasicMaterial({
   map: moonTexture
 });
@@ -63099,7 +63099,7 @@ const moon = new three__WEBPACK_IMPORTED_MODULE_8__.Mesh(moonGeometry, moonMater
 moon.position.set(35, 0, 0);
 scene.add(moon);
 const marsTexture = new three__WEBPACK_IMPORTED_MODULE_8__.TextureLoader().load(_assets_images_MarsTexture_jpg__WEBPACK_IMPORTED_MODULE_7__);
-const marsGeometry = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(5, 50, 50);
+const marsGeometry = new three__WEBPACK_IMPORTED_MODULE_8__.SphereGeometry(16, 50, 50);
 const marsMaterial = new three__WEBPACK_IMPORTED_MODULE_8__.MeshBasicMaterial({
   map: marsTexture
 });
@@ -63139,11 +63139,20 @@ window.addEventListener('resize', () => {
 // Base camera
 
 const camera = new three__WEBPACK_IMPORTED_MODULE_8__.PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 1000);
-camera.position.set(250, 20, 250);
+camera.position.set(250, 20, 550);
 scene.add(camera); // Controls
 
 const controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_9__.OrbitControls(camera, canvas); // controls.enableDamping = true;
 
+const onKeyListener = event => {
+  if (event.keyCode === 32) {
+    isPaused = !isPaused;
+  } else if (event.keyCode === 82) {
+    isReversed = !isReversed;
+  }
+};
+
+document.addEventListener('keydown', onKeyListener);
 /**
  * Renderer
  */
@@ -63158,37 +63167,57 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  */
 
 const clock = new three__WEBPACK_IMPORTED_MODULE_8__.Clock();
+let isPaused = false;
+let isReversed = false;
+const earthSpeedRot = 0.002;
+const earthCloudSpeedRot = 0.0009;
+const moonSpeedRot = 0.002;
+const marsSpeedRot = 0.002;
+const sunSpeedRot = 0.001;
 
 const tick = () => {
-  const elapsedTime = clock.getElapsedTime(); // Update objects
+  const elapsedTime = clock.getElapsedTime(); // Update objects depends on isPaused
 
-  if (earth instanceof three__WEBPACK_IMPORTED_MODULE_8__.Mesh) {
-    thetaEarth += dThetaEarth;
-    earth.rotation.y -= 0.002;
-    earth.position.x = rEarth * Math.cos(thetaEarth);
-    earth.position.z = rEarth * Math.sin(thetaEarth);
-  }
-
-  if (earthCloud instanceof three__WEBPACK_IMPORTED_MODULE_8__.Mesh) {
-    earthCloud.rotation.y -= 0.0009;
-    earthCloud.position.x = rEarth * Math.cos(thetaEarth);
-    earthCloud.position.z = rEarth * Math.sin(thetaEarth);
-  }
-
-  if (moon instanceof three__WEBPACK_IMPORTED_MODULE_8__.Mesh) {
-    thetaMoon += dThetaMoon;
-    moon.position.x = rMoon * Math.cos(thetaMoon) + rEarth * Math.cos(thetaEarth);
-    moon.position.z = rMoon * Math.sin(thetaMoon) + rEarth * Math.sin(thetaEarth);
-    moon.position.y = rMoon * Math.sin(thetaMoon);
-    moon.rotation.y -= 0.002;
-    moon.rotation.z -= 0.002;
-  }
-
-  if (mars instanceof three__WEBPACK_IMPORTED_MODULE_8__.Mesh) {
-    thetaMars += dThetaMars;
-    mars.position.x = rMars * Math.cos(thetaMars);
-    mars.position.z = rMars * Math.sin(thetaMars);
-    mars.rotation.y -= 0.002;
+  if (!isPaused) {
+    if (!isReversed) {
+      thetaEarth += dThetaEarth;
+      earth.rotation.y -= earthSpeedRot;
+      earth.position.x = rEarth * Math.cos(thetaEarth);
+      earth.position.z = rEarth * Math.sin(thetaEarth);
+      earthCloud.rotation.y -= earthCloudSpeedRot;
+      earthCloud.position.x = rEarth * Math.cos(thetaEarth);
+      earthCloud.position.z = rEarth * Math.sin(thetaEarth);
+      thetaMoon += dThetaMoon;
+      moon.position.x = rMoon * Math.cos(thetaMoon) + rEarth * Math.cos(thetaEarth);
+      moon.position.z = rMoon * Math.sin(thetaMoon) + rEarth * Math.sin(thetaEarth);
+      moon.position.y = rMoon * Math.sin(thetaMoon);
+      moon.rotation.y -= moonSpeedRot;
+      moon.rotation.z -= moonSpeedRot;
+      thetaMars += dThetaMars;
+      mars.position.x = rMars * Math.cos(thetaMars);
+      mars.position.z = rMars * Math.sin(thetaMars);
+      mars.rotation.y -= marsSpeedRot;
+      sun.rotation.y -= sunSpeedRot;
+    } else {
+      thetaEarth -= dThetaEarth;
+      earth.rotation.y += earthSpeedRot;
+      earth.position.x = rEarth * Math.cos(thetaEarth);
+      earth.position.z = rEarth * Math.sin(thetaEarth);
+      earthCloud.rotation.y += earthCloudSpeedRot;
+      earthCloud.position.x = rEarth * Math.cos(thetaEarth);
+      earthCloud.position.z = rEarth * Math.sin(thetaEarth);
+      thetaMoon -= dThetaMoon;
+      moon.position.x = rMoon * Math.cos(thetaMoon) + rEarth * Math.cos(thetaEarth);
+      moon.position.z = rMoon * Math.sin(thetaMoon) + rEarth * Math.sin(thetaEarth);
+      moon.position.y = rMoon * Math.sin(thetaMoon);
+      moon.rotation.y += moonSpeedRot;
+      moon.rotation.z += moonSpeedRot;
+      thetaMars -= dThetaMars;
+      mars.position.x = rMars * Math.cos(thetaMars);
+      mars.position.z = rMars * Math.sin(thetaMars);
+      mars.rotation.y += marsSpeedRot;
+      sun.rotation.y += sunSpeedRot;
+    }
   } // Update Orbital Controls
 
 
@@ -63205,10 +63234,10 @@ tick();
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!***********************************************************************************!*\
-  !*** ./node_modules/webpack-dev-server/client/index.js?http://192.168.0.106:8081 ***!
-  \***********************************************************************************/
-var __resourceQuery = "?http://192.168.0.106:8081";
+/*!*********************************************************************************!*\
+  !*** ./node_modules/webpack-dev-server/client/index.js?http://192.168.0.1:8080 ***!
+  \*********************************************************************************/
+var __resourceQuery = "?http://192.168.0.1:8080";
 
 /* global __resourceQuery WorkerGlobalScope self */
 
