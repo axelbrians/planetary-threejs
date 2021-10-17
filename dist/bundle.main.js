@@ -203,6 +203,25 @@ module.exports = function () {
 
 /***/ }),
 
+/***/ "./src/randomNextInt.js":
+/*!******************************!*\
+  !*** ./src/randomNextInt.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const randomInt = (from, until) => {
+  return from + Math.random() * (until - from);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (randomInt);
+
+/***/ }),
+
 /***/ "./node_modules/dat.gui/build/dat.gui.module.js":
 /*!******************************************************!*\
   !*** ./node_modules/dat.gui/build/dat.gui.module.js ***!
@@ -62978,13 +62997,15 @@ var __webpack_exports__ = {};
   \***********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/style.css");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
-/* harmony import */ var three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls.js */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls.js */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
 /* harmony import */ var dat_gui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dat.gui */ "./node_modules/dat.gui/build/dat.gui.module.js");
-/* harmony import */ var _assets_images_MoonTexture_jpg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/images/MoonTexture.jpg */ "./src/assets/images/MoonTexture.jpg");
-/* harmony import */ var _assets_images_EarthTexture_jpg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./assets/images/EarthTexture.jpg */ "./src/assets/images/EarthTexture.jpg");
-/* harmony import */ var _assets_images_EarthCloud_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./assets/images/EarthCloud.png */ "./src/assets/images/EarthCloud.png");
-/* harmony import */ var _assets_images_SunTexture_jpg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./assets/images/SunTexture.jpg */ "./src/assets/images/SunTexture.jpg");
+/* harmony import */ var _randomNextInt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./randomNextInt */ "./src/randomNextInt.js");
+/* harmony import */ var _assets_images_MoonTexture_jpg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./assets/images/MoonTexture.jpg */ "./src/assets/images/MoonTexture.jpg");
+/* harmony import */ var _assets_images_EarthTexture_jpg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./assets/images/EarthTexture.jpg */ "./src/assets/images/EarthTexture.jpg");
+/* harmony import */ var _assets_images_EarthCloud_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./assets/images/EarthCloud.png */ "./src/assets/images/EarthCloud.png");
+/* harmony import */ var _assets_images_SunTexture_jpg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./assets/images/SunTexture.jpg */ "./src/assets/images/SunTexture.jpg");
+
 
 
 
@@ -62996,29 +63017,22 @@ __webpack_require__.r(__webpack_exports__);
 
 const canvas = document.querySelector('canvas.webgl'); // Scene
 
-const scene = new three__WEBPACK_IMPORTED_MODULE_6__.Scene(); // Grid helper
+const scene = new three__WEBPACK_IMPORTED_MODULE_7__.Scene(); // Grid helper
 // const gridHelper = new THREE.GridHelper( 1000, 1000 );
 // scene.add( gridHelper );
 // Geomtry
 // Mesh
 // Add mesh to canvass
 
+let starMaterial = new three__WEBPACK_IMPORTED_MODULE_7__.MeshBasicMaterial({
+  color: 0xffffff
+});
+let star = new three__WEBPACK_IMPORTED_MODULE_7__.SphereGeometry(1, 32, 16);
+
 function generateStar() {
-  var positions = Array.from({
-    length: 3
-  }, () => {
-    var plusOrMin = Math.round(Math.random()) * 2 - 1; // console.log(plusOrMin);
-
-    return Math.floor(Math.random() * 1000) * plusOrMin;
-  }); // console.log("added new star" + positions);
-
-  var star = new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(1, 32, 16);
-  var starMaterial = new three__WEBPACK_IMPORTED_MODULE_6__.MeshBasicMaterial({
-    color: 0xffffff,
-    wireframe: false
-  });
-  var starMesh = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(star, starMaterial);
-  starMesh.position.set(positions[0], positions[1], positions[2]);
+  // console.log("added new star" + positions);
+  let starMesh = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(star, starMaterial);
+  starMesh.position.set((0,_randomNextInt__WEBPACK_IMPORTED_MODULE_2__.default)(-1000, 1000), (0,_randomNextInt__WEBPACK_IMPORTED_MODULE_2__.default)(-1000, 1000), (0,_randomNextInt__WEBPACK_IMPORTED_MODULE_2__.default)(-1000, 1000));
   return starMesh;
 }
 
@@ -63033,45 +63047,45 @@ var dThetaMoon = 2 * Math.PI / 1000;
 var rEarth = 250;
 var thetaEarth = 0;
 var dThetaEarth = 2 * Math.PI / 12000;
-const sunTexture = new three__WEBPACK_IMPORTED_MODULE_6__.TextureLoader().load(_assets_images_SunTexture_jpg__WEBPACK_IMPORTED_MODULE_5__);
-const sunGeo = new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(70, 50, 50);
-const sunMat = new three__WEBPACK_IMPORTED_MODULE_6__.MeshBasicMaterial({
+const sunTexture = new three__WEBPACK_IMPORTED_MODULE_7__.TextureLoader().load(_assets_images_SunTexture_jpg__WEBPACK_IMPORTED_MODULE_6__);
+const sunGeo = new three__WEBPACK_IMPORTED_MODULE_7__.SphereGeometry(70, 50, 50);
+const sunMat = new three__WEBPACK_IMPORTED_MODULE_7__.MeshBasicMaterial({
   map: sunTexture
 });
-const sun = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(sunGeo, sunMat);
-sun.position.set(-50, 0, 0);
+const sun = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(sunGeo, sunMat);
+sun.position.set(0, 0, 0);
 scene.add(sun);
-const earthTexture = new three__WEBPACK_IMPORTED_MODULE_6__.TextureLoader().load(_assets_images_EarthTexture_jpg__WEBPACK_IMPORTED_MODULE_3__);
-const earthGeo = new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(10, 50, 50);
-const earthMat = new three__WEBPACK_IMPORTED_MODULE_6__.MeshBasicMaterial({
+const earthTexture = new three__WEBPACK_IMPORTED_MODULE_7__.TextureLoader().load(_assets_images_EarthTexture_jpg__WEBPACK_IMPORTED_MODULE_4__);
+const earthGeo = new three__WEBPACK_IMPORTED_MODULE_7__.SphereGeometry(10, 50, 50);
+const earthMat = new three__WEBPACK_IMPORTED_MODULE_7__.MeshBasicMaterial({
   map: earthTexture
 });
-const earth = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(earthGeo, earthMat);
+const earth = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(earthGeo, earthMat);
 earth.position.set(0, 0, 0);
 scene.add(earth);
-const earthCloudTexture = new three__WEBPACK_IMPORTED_MODULE_6__.TextureLoader().load(_assets_images_EarthCloud_png__WEBPACK_IMPORTED_MODULE_4__);
-const cloudGeo = new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(10.2, 50, 50);
-const cloudMat = new three__WEBPACK_IMPORTED_MODULE_6__.MeshPhongMaterial({
+const earthCloudTexture = new three__WEBPACK_IMPORTED_MODULE_7__.TextureLoader().load(_assets_images_EarthCloud_png__WEBPACK_IMPORTED_MODULE_5__);
+const cloudGeo = new three__WEBPACK_IMPORTED_MODULE_7__.SphereGeometry(10.2, 50, 50);
+const cloudMat = new three__WEBPACK_IMPORTED_MODULE_7__.MeshPhongMaterial({
   map: earthCloudTexture,
   transparent: true,
   opacity: 0.1,
   emissive: 0xffffff
 });
-const earthCloud = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(cloudGeo, cloudMat);
+const earthCloud = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(cloudGeo, cloudMat);
 earthCloud.position.set(0, 0, 0);
 scene.add(earthCloud);
-const moonTexture = new three__WEBPACK_IMPORTED_MODULE_6__.TextureLoader().load(_assets_images_MoonTexture_jpg__WEBPACK_IMPORTED_MODULE_2__);
-const moonGeometry = new three__WEBPACK_IMPORTED_MODULE_6__.SphereGeometry(2.5, 50, 50);
-const moonMaterial = new three__WEBPACK_IMPORTED_MODULE_6__.MeshBasicMaterial({
+const moonTexture = new three__WEBPACK_IMPORTED_MODULE_7__.TextureLoader().load(_assets_images_MoonTexture_jpg__WEBPACK_IMPORTED_MODULE_3__);
+const moonGeometry = new three__WEBPACK_IMPORTED_MODULE_7__.SphereGeometry(2.5, 50, 50);
+const moonMaterial = new three__WEBPACK_IMPORTED_MODULE_7__.MeshBasicMaterial({
   map: moonTexture
 });
-const moon = new three__WEBPACK_IMPORTED_MODULE_6__.Mesh(moonGeometry, moonMaterial);
+const moon = new three__WEBPACK_IMPORTED_MODULE_7__.Mesh(moonGeometry, moonMaterial);
 moon.position.set(35, 0, 0);
 scene.add(moon); // Lights option
 // Point Light
 // Spot Light
 
-const directionalLight = new three__WEBPACK_IMPORTED_MODULE_6__.DirectionalLight(0xffffff, 0.5);
+const directionalLight = new three__WEBPACK_IMPORTED_MODULE_7__.DirectionalLight(0xffffff, 0.5);
 directionalLight.visible = false;
 scene.add(directionalLight); // Debug
 
@@ -63100,17 +63114,17 @@ window.addEventListener('resize', () => {
  */
 // Base camera
 
-const camera = new three__WEBPACK_IMPORTED_MODULE_6__.PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 1000);
+const camera = new three__WEBPACK_IMPORTED_MODULE_7__.PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 1000);
 camera.position.set(250, 20, 250);
 scene.add(camera); // Controls
 
-const controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_7__.OrbitControls(camera, canvas); // controls.enableDamping = true;
+const controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_8__.OrbitControls(camera, canvas); // controls.enableDamping = true;
 
 /**
  * Renderer
  */
 
-const renderer = new three__WEBPACK_IMPORTED_MODULE_6__.WebGLRenderer({
+const renderer = new three__WEBPACK_IMPORTED_MODULE_7__.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
@@ -63119,25 +63133,25 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  * Animate
  */
 
-const clock = new three__WEBPACK_IMPORTED_MODULE_6__.Clock();
+const clock = new three__WEBPACK_IMPORTED_MODULE_7__.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime(); // Update objects
 
-  if (earth instanceof three__WEBPACK_IMPORTED_MODULE_6__.Mesh) {
+  if (earth instanceof three__WEBPACK_IMPORTED_MODULE_7__.Mesh) {
     thetaEarth += dThetaEarth;
     earth.rotation.y -= 0.002;
     earth.position.x = rEarth * Math.cos(thetaEarth);
     earth.position.z = rEarth * Math.sin(thetaEarth);
   }
 
-  if (earthCloud instanceof three__WEBPACK_IMPORTED_MODULE_6__.Mesh) {
+  if (earthCloud instanceof three__WEBPACK_IMPORTED_MODULE_7__.Mesh) {
     earthCloud.rotation.y -= 0.0009;
     earthCloud.position.x = rEarth * Math.cos(thetaEarth);
     earthCloud.position.z = rEarth * Math.sin(thetaEarth);
   }
 
-  if (moon instanceof three__WEBPACK_IMPORTED_MODULE_6__.Mesh) {
+  if (moon instanceof three__WEBPACK_IMPORTED_MODULE_7__.Mesh) {
     thetaMoon += dThetaMoon;
     moon.position.x = rMoon * Math.cos(thetaMoon) + rEarth * Math.cos(thetaEarth);
     moon.position.z = rMoon * Math.sin(thetaMoon) + rEarth * Math.sin(thetaEarth);

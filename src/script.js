@@ -2,6 +2,7 @@ import './style.css';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as dat from 'dat.gui';
+import randomInt from './randomNextInt';
 import MoonTexture from './assets/images/MoonTexture.jpg';
 import EarthTexture from './assets/images/EarthTexture.jpg';
 import EarthCloud from './assets/images/EarthCloud.png';
@@ -31,21 +32,19 @@ const scene = new THREE.Scene();
 
 // Add mesh to canvass
 
+let starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+let star = new THREE.SphereGeometry(1, 32, 16);
 
 function generateStar() {
-    var positions = Array.from(
-        { length: 3 }, () => {
-            var plusOrMin = Math.round(Math.random()) * 2 - 1;
-            // console.log(plusOrMin);
-            return Math.floor(Math.random() * 1000) * plusOrMin
-        }
-    );
-
     // console.log("added new star" + positions);
-    var star = new THREE.SphereGeometry(1, 32, 16);
-    var starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false });
-    var starMesh = new THREE.Mesh(star, starMaterial);
-    starMesh.position.set(positions[0], positions[1], positions[2]);
+
+
+    let starMesh = new THREE.Mesh(star, starMaterial);
+    starMesh.position.set(
+        randomInt(-1000, 1000), 
+        randomInt(-1000, 1000), 
+        randomInt(-1000, 1000)
+    );
     return starMesh;
 }
 
@@ -65,7 +64,7 @@ const sunTexture = new THREE.TextureLoader().load(SunTexture);
 const sunGeo = new THREE.SphereGeometry(70, 50, 50);
 const sunMat = new THREE.MeshBasicMaterial({ map: sunTexture });
 const sun = new THREE.Mesh(sunGeo, sunMat);
-sun.position.set(-50, 0, 0);
+sun.position.set(0, 0, 0);
 scene.add(sun);
 
 
