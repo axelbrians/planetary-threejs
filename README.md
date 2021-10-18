@@ -23,3 +23,7 @@ Aplikasi yang dibangun sebagai simulasi tata surya. Namun, aplikasi ini hanya me
 3. Kecepatan revolusi planet akan bertambah jika menekan tombol `F`.
 4. Kecepatan revolusi planet akan berkurang jika menekan tombol `S`.
 5. Kamera bersifat responsif terhadap ukuran *window browser*.
+
+## Hasil
+
+<img src="https://user-images.githubusercontent.com/37539546/137784852-69fde1fc-011a-41cc-b82e-09630882c2ad.gif">
