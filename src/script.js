@@ -7,7 +7,7 @@ import MoonTexture from './assets/images/MoonTexture.jpg';
 import EarthTexture from './assets/images/EarthTexture.jpg';
 import EarthCloud from './assets/images/EarthCloud.png';
 import SunTexture from './assets/images/SunTexture.jpg';
-import MarsTexture from './assets/images/MarsTexture.jpg';
+import marsTexture from './assets/images/marsTexture.jpg';
 import JupiterTexture from './assets/images/JupiterTexture.jpg';
 
 // Canvas
@@ -93,9 +93,9 @@ const moon = new THREE.Mesh(moonGeometry, moonMaterial);
 moon.position.set(35, 0, 0);
 scene.add(moon);
 
-const marsTexture = new THREE.TextureLoader().load(MarsTexture);
+const marsTextureSrc = new THREE.TextureLoader().load(marsTexture);
 const marsGeometry = new THREE.SphereGeometry(16, 50, 50);
-const marsMaterial = new THREE.MeshBasicMaterial({ map: marsTexture });
+const marsMaterial = new THREE.MeshBasicMaterial({ map: marsTextureSrc });
 const mars = new THREE.Mesh(marsGeometry, marsMaterial);
 mars.position.set(0, 0, 0);
 scene.add(mars);
