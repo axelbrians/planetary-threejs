@@ -18,7 +18,7 @@ Aplikasi yang dibangun sebagai simulasi tata surya. Namun, aplikasi ini hanya me
 
 ## Fitur
 
-1. Planet akan berhenti bergerak jika menekan tombol `SPACE/spasi`.
+1. Planet akan berhenti bergerak jika menekan tombol `SPACE/spasi` dan jika ditekan lagi akan bergerak kembali.
 2. Planet dan satelit akan berevolusi secara terbalik/*reverse* jika menekan tombol `R`.
 3. Kecepatan revolusi planet akan bertambah jika menekan tombol `F`.
 4. Kecepatan revolusi planet akan berkurang jika menekan tombol `S`.
@@ -27,3 +27,5 @@ Aplikasi yang dibangun sebagai simulasi tata surya. Namun, aplikasi ini hanya me
 ## Hasil
 
 <img src="https://user-images.githubusercontent.com/37539546/137784852-69fde1fc-011a-41cc-b82e-09630882c2ad.gif">
+
+### Live demo: [di sini](https://grafkom-2-planetary-threejs.vercel.app/ "Goto di sini")
